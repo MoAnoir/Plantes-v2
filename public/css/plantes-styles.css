@@ -1,0 +1,488 @@
+/* Animations personnalisées */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(50px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes petalFall {
+    0% { opacity: 0; transform: translateY(-20px) rotate(10deg); }
+    50% { transform: translateY(10px) rotate(-10deg); }
+    100% { opacity: 1; transform: translateY(0) rotate(0deg); }
+}
+@keyframes bounceIn {
+    0% { opacity: 0; transform: scale(0.5) translateY(20px); }
+    50% { transform: scale(1.1) translateY(-10px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes spinFade {
+    from { opacity: 0; transform: rotate(360deg) scale(0.5); }
+    to { opacity: 1; transform: rotate(0deg) scale(1); }
+}
+@keyframes grow {
+    0% { opacity: 0; transform: scale(0.3) translateY(50px); }
+    50% { opacity: 0.7; transform: scale(1.1) translateY(-10px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes bloom {
+    0% { opacity: 0; transform: scale(0.5) rotate(-10deg); }
+    50% { opacity: 0.8; transform: scale(1.1) rotate(5deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+}
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 5px rgba(108, 203, 154, 0.5); }
+    50% { box-shadow: 0 0 15px rgba(108, 203, 154, 0.8); }
+    100% { box-shadow: 0 0 5px rgba(108, 203, 154, 0.5); }
+}
+@keyframes wave {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+@keyframes petalFloat {
+    0% { transform: translateY(-100vh) rotate(0deg); opacity: 0.8; }
+    50% { opacity: 0.5; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+/* Classes d'animation */
+.animate-fade-in-down { animation: fadeInDown 1s ease-out; }
+.animate-slide-in-up { animation: slideInUp 0.8s ease-out forwards; }
+.animate-petal-fall { animation: petalFall 1.2s ease-out; }
+.animate-bounce-in { animation: bounceIn 1s ease-out forwards; }
+.animate-spin-fade { animation: spinFade 1.2s ease-out forwards; }
+.animate-grow { animation: grow 1s ease-out forwards; }
+.animate-bloom { animation: bloom 1s ease-out forwards; }
+.animate-float { animation: float 2s infinite ease-in-out; }
+.animate-pulse-glow { animation: pulseGlow 2s infinite ease-in-out; }
+.animate-wave { animation: wave 3s infinite ease-in-out; }
+.animate-rotate-in { animation: spinFade 1.2s ease-out; }
+
+/* Pétales flottants en arrière-plan */
+.petals-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+.petal {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: #d3f640;
+    border-radius: 50% 50% 0 50%;
+    opacity: 0.6;
+    animation: petalFloat linear infinite;
+}
+.petal-1 { left: 10%; animation-duration: 10s; animation-delay: 0s; }
+.petal-2 { left: 30%; animation-duration: 12s; animation-delay: 2s; }
+.petal-3 { left: 50%; animation-duration: 15s; animation-delay: 4s; }
+.petal-4 { left: 70%; animation-duration: 11s; animation-delay: 6s; }
+.petal-5 { left: 90%; animation-duration: 13s; animation-delay: 8s; }
+
+/* Style global */
+body {
+    background: linear-gradient(135deg, #F7FAF7 0%, #E6F9EF 100%);
+}
+
+/* Style des filtres */
+.filter-section {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+    position: relative;
+}
+.filter-section::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 1rem;
+    background: linear-gradient(45deg, #6CCB9A, #d3f640);
+    z-index: -1;
+    opacity: 0.3;
+}
+.filter-section input,
+.filter-section select {
+    border: 1px solid #6CCB9A;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    width: 100%;
+    max-width: 300px;
+    transition: all 0.3s ease;
+    background: white;
+}
+.filter-section input:focus,
+.filter-section select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(108, 203, 154, 0.5);
+    border-color: #d3f640;
+    background: linear-gradient(90deg, rgba(108, 203, 154, 0.1), rgba(255, 202, 212, 0.1));
+    animation: wave 3s infinite ease-in-out;
+}
+.filter-section label {
+    color: #6CCB9A;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+}
+.filter-section label i {
+    margin-right: 0.5rem;
+    color: #d3f640;
+}
+.filter-section .reset-btn {
+    background: linear-gradient(45deg, #6CCB9A, #5AB885);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+.filter-section .reset-btn i {
+    margin-right: 0.5rem;
+}
+.filter-section .reset-btn:hover {
+    background: linear-gradient(45deg, #d3f640, #FFB3C1);
+    color: #5A5A5A;
+    transform: scale(1.05);
+}
+
+/* Style des cartes */
+.plante-card {
+    opacity: 0;
+    background: white;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    border: 2px solid transparent;
+    background: linear-gradient(to bottom right, #ffffff, #F7FAF7);
+    transition: all 0.4s ease;
+    transform: perspective(800px) rotateX(0deg);
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+.plante-card.visible {
+    opacity: 1;
+}
+.plante-card:hover {
+    transform: perspective(800px) rotateX(5deg) scale(1.05) rotate(2deg);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 0 15px rgba(108, 203, 154, 0.5);
+    border-color: #d3f640;
+}
+.plante-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 0.75rem;
+    background: linear-gradient(45deg, #6CCB9A, #d3f640);
+    z-index: -1;
+    opacity: 0.2;
+}
+.plante-card h3 {
+    color: #6CCB9A;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05);
+    margin-bottom: 0.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+}
+.plante-card .nom-latin {
+    color: #ea3325;
+    font-size: 0.875rem;
+    font-style: italic;
+    margin-bottom: 0.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.plante-card .partie-utilisee {
+    color: #5A5A5A;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.partie-utilisee {
+    display: flex;
+    align-items: center;
+    color: #5A5A5A;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(108, 203, 154, 0.1);
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.partie-utilisee:hover {
+    background: rgba(108, 203, 154, 0.2);
+    transform: translateX(5px);
+}
+.partie-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: #6CCB9A;
+    color: white;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    font-size: 0.75rem;
+}
+.partie-label {
+    font-weight: 600;
+    color: #6CCB9A;
+    margin-right: 0.25rem;
+}
+
+/* Ajustement pour l'overlay et la page de détails */
+.overlay-content .partie-utilisee,
+.info-section .partie-utilisee {
+    font-size: 0.875rem;
+    padding: 0.5rem;
+}
+.overlay-content .partie-icon,
+.info-section .partie-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.875rem;
+}
+
+/* Responsivité */
+@media (max-width: 640px) {
+    .partie-utilisee {
+        font-size: 0.625rem;
+    }
+    .partie-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+        font-size: 0.625rem;
+    }
+    .overlay-content .partie-utilisee,
+    .info-section .partie-utilisee {
+        font-size: 0.75rem;
+    }
+    .overlay-content .partie-icon,
+    .info-section .partie-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        font-size: 0.75rem;
+    }
+}
+.plante-card img {
+    margin: 0.5rem 0;
+    display: block;
+}
+.plante-card .formules-list {
+    color: #5A5A5A;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.plante-card .detail-link {
+    background: linear-gradient(45deg, #6CCB9A, #5AB885);
+    color: white;
+    padding: 0.375rem 0.75rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    transition: all 0.3s ease;
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+}
+.plante-card .detail-link i {
+    margin-right: 0.5rem;
+}
+.plante-card .detail-link:hover {
+    background: linear-gradient(45deg, #d3f640, #FFB3C1);
+    color: #5A5A5A;
+    transform: translateX(-50%) scale(1.1);
+    box-shadow: 0 0 10px rgba(255, 202, 212, 0.5);
+}
+
+/* Style de l'overlay */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    backdrop-filter: blur(5px);
+}
+.overlay-content {
+    background: linear-gradient(135deg, #ffffff 0%, #F7FAF7 100%);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    max-width: 75%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1), inset 0 0 6px rgba(108, 203, 154, 0.2);
+    border: 2px solid #6CCB9A;
+    position: relative;
+}
+.overlay-content::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 1.25rem;
+    background: linear-gradient(45deg, #6CCB9A, #d3f640);
+    z-index: -1;
+    opacity: 0.3;
+}
+.overlay-content #plantImage {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.overlay-content #plantImage img {
+    border-radius: 0.5rem;
+}
+.overlay-content .no-image {
+    padding: 1rem;
+    background: #F7FAF7;
+    border-radius: 0.5rem;
+}
+.overlay-content h2 {
+    color: #6CCB9A;
+    font-size: 1.75rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05);
+    margin-bottom: 0.75rem;
+    animation: petalFall 1.2s ease-out forwards;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.overlay-content h2 i {
+    margin-right: 0.5rem;
+    color: #d3f640;
+}
+.overlay-content p {
+    color: #5A5A5A;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+    padding: 0.375rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 0.375rem;
+    animation: slideInUp 0.8s ease-out forwards;
+    display: flex;
+    align-items: center;
+}
+.overlay-content p i {
+    margin-right: 0.5rem;
+    color: #d3f640;
+}
+.close-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    font-size: 1.25rem;
+    color: #6CCB9A;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.close-btn:hover {
+    color: #d3f640;
+    transform: rotate(90deg);
+}
+
+/* Style de la pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.375rem;
+    margin-top: 1.5rem;
+}
+.pagination button {
+    padding: 0.375rem 0.75rem;
+    background: #E6F9EF;
+    color: #5A5A5A;
+    border-radius: 0.375rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+}
+.pagination button i {
+    margin-right: 0.5rem;
+}
+.pagination button:hover {
+    background: linear-gradient(45deg, #d3f640, #FFB3C1);
+    color: #5A5A5A;
+    box-shadow: 0 0 10px rgba(255, 202, 212, 0.5);
+}
+.pagination button.active {
+    background: linear-gradient(45deg, #6CCB9A, #5AB885);
+    color: white;
+    font-weight: bold;
+}
+.pagination button:disabled {
+    background: #d1d5db;
+    color: #6b7280;
+    cursor: not-allowed;
+}
+
+/* Responsivité */
+@media (max-width: 640px) {
+    .plante-card { padding: 0.75rem; height: 250px; }
+    .plante-card h3 { font-size: 1rem; }
+    .plante-card .nom-latin { font-size: 0.75rem; }
+    .plante-card .partie-utilisee { font-size: 0.625rem; }
+    .plante-card img { width: 20px; height: 20px; }
+    .overlay-content { max-width: 90%; padding: 0.75rem; }
+    .overlay-content h2 { font-size: 1.25rem; }
+    .overlay-content p { font-size: 0.75rem; }
+    .pagination button { padding: 0.25rem 0.5rem; font-size: 0.625rem; }
+    .filter-section { padding: 0.75rem; }
+    .filter-section input,
+    .filter-section select { max-width: 100%; }
+}
