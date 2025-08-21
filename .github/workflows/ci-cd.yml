@@ -1,0 +1,58 @@
+name: CI/CD for PlantMed
+
+on:
+  push:
+    branches: [ version-docker, main ]
+  pull_request:
+    branches: [ version-docker, main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: mbstring, pdo_mysql, exif, pcntl, bcmath
+
+    - name: Install Dependencies
+      run: composer install --no-scripts --no-interaction
+
+    # - name: Run Tests
+    #   run: php artisan test  # Commente cette ligne si tu n'as pas encore de tests
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/version-docker' || github.ref == 'refs/heads/main')
+    needs: build
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        file: Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKER_USERNAME }}/plantmed:latest
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: plantmed-app
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        images: ${{ secrets.DOCKER_USERNAME }}/plantmed:latest
