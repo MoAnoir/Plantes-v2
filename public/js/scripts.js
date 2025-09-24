@@ -214,6 +214,38 @@ function updatePagination() {
     });
 }
 
+function animateFormuleDetailElements() {
+    setTimeout(() => {
+        // Animation pour les cartes de plantes
+        const planteCards = document.querySelectorAll('.plante-card');
+        planteCards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('animate-slide-in-up');
+            }, index * 120);
+        });
+        
+        // Animation pour la section des plantes
+        const plantesSection = document.querySelector('.plantes-section');
+        if (plantesSection) {
+            plantesSection.classList.add('animate-bounce-in');
+        }
+        
+        // Animation supplémentaire pour les badges
+        setTimeout(() => {
+            const badges = document.querySelectorAll('.plante-role, .plante-percentage, .partie-badge');
+            badges.forEach((badge, index) => {
+                setTimeout(() => {
+                    badge.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        badge.style.transform = 'scale(1)';
+                    }, 200);
+                }, index * 50);
+            });
+        }, 400);
+    }, 350);
+}
+
 function updateDetailLinks() {
     const detailLinks = document.querySelectorAll('.detail-link');
     detailLinks.forEach(link => {
@@ -253,7 +285,63 @@ function updateDetailLinks() {
                 detailsHtml += `<p><i class="fas fa-seedling"></i> <strong>Plantes Associées :</strong> ${plantesLinks}</p>`;
             }
 
-            formulaDetails.innerHTML = detailsHtml;
+            
+            formulaDetails.innerHTML = `
+                ${nom_alternatif ? `<p><i class="${alternatifIcon}"></i> <strong>Nom Alternatif :</strong> ${nom_alternatif}</p>` : ''}
+                ${description ? `<p><i class="fas fa-file-alt"></i> <strong>Description :</strong> ${description}</p>` : ''}
+                ${formule.indications ? `<p><i class="fas fa-diagnoses"></i> <strong>Indications :</strong> ${formule.indications}</p>` : ''}
+                ${formule.posologie ? `<p><i class="fas fa-pills"></i> <strong>Posologie :</strong> ${formule.posologie}</p>` : ''}
+                ${formule.contre_indications ? `<p><i class="fas fa-exclamation-triangle"></i> <strong>Contre-indications :</strong> ${formule.contre_indications}</p>` : ''}
+                ${formule.pharmacologie ? `<p><i class="fas fa-flask"></i> <strong>Pharmacologie :</strong> ${formule.pharmacologie}</p>` : ''}
+                ${formule.toxicologie ? `<p><i class="fas fa-skull-crossbones"></i> <strong>Toxicologie :</strong> ${formule.toxicologie}</p>` : ''}
+                ${formule.composition ? `<p><i class="fas fa-list-ul"></i> <strong>Composition :</strong> ${formule.composition}</p>` : ''}
+                ${formule.etudes_cliniques ? `<p><i class="fas fa-book-medical"></i> <strong>Études Cliniques :</strong> ${formule.etudes_cliniques}</p>` : ''}
+                ${formule.remarques ? `<p><i class="fas fa-comment"></i> <strong>Remarques :</strong> ${formule.remarques}</p>` : ''}
+                ${formule.categorie ? `<p><i class="${categorieIcon}"></i> <strong>Catégorie :</strong> ${formule.categorie}</p>` : ''}
+                ${formule.date_creation ? `<p><i class="fas fa-calendar-alt"></i> <strong>Date de Création :</strong> ${formule.date_creation}</p>` : ''}
+                ${formule.statut ? `<p><i class="fas fa-check-circle"></i> <strong>Statut :</strong> ${formule.statut}</p>` : ''}
+
+                ${formule.plantes && formule.plantes.length > 0 ? `
+                    <div class="plantes-section">
+                        <h3 class="plantes-title"><i class="fas fa-seedling"></i> <strong>Plantes Associées</strong></h3>
+                        <div class="plantes-grid">
+                            ${formule.plantes.map(plante => {
+                                const planteName = plante.nom_latin || plante.nom_chinois;
+                                const roleFormule = plante.pivot?.role_formule || 'Non spécifié';
+                                const pourcentageFormule = plante.pivot?.pourcentage_formule || 'N/A';
+                                const partieUtilisee = plante.partie_utilisee || '';
+                                
+                                return `
+                                    <div class="plante-card">
+                                        <div class="plante-header">
+                                            <div class="plante-icon-wrapper">
+                                                <i class="fas fa-leaf plante-icon"></i>
+                                            </div>
+                                            <div class="plante-info">
+                                                <a href="/plante/${encodeURIComponent(planteName)}" class="plante-name">${planteName}</a>
+                                                ${plante.nom_chinois && plante.nom_latin && plante.nom_chinois !== plante.nom_latin ? 
+                                                    `<span class="plante-chinese">${plante.nom_chinois}</span>` : ''}
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="plante-details">
+                                            <div class="plante-role-percentage">
+                                                <span class="plante-role"><i class="fas fa-user-tag"></i> ${roleFormule}</span>
+                                                <span class="plante-percentage"><i class="fas fa-percentage"></i> ${pourcentageFormule}%</span>
+                                            </div>
+                                            ${partieUtilisee ? `
+                                                <div class="plante-partie">
+                                                    <span class="partie-badge"><i class="fas fa-spa"></i> ${partieUtilisee}</span>
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+            `;
 
             overlay.style.display = 'flex';
             overlayContent.classList.remove('animate-bounce-in', 'animate-spin-fade', 'animate-flip-in', 'animate-rotate-in', 'animate-slide-in-up', 'animate-fade-in-down');
@@ -266,8 +354,11 @@ function updateDetailLinks() {
                     p.style.animationDelay = `${i * 0.2}s`;
                 });
                 closeBtn.classList.add('animate-fade-in-down');
+                
+                // Ajouter l'animation pour les plantes
+                animateFormuleDetailElements();
             }, 100);
-        });
+                    });
     });
 }
 

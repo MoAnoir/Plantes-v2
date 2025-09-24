@@ -176,6 +176,38 @@
             .info-section p, .info-section li { font-size: 0.875rem; }
             .back-btn { padding: 0.5rem 1rem; font-size: 0.875rem; }
         }
+        /* Ajouts pour la responsivité */
+        @media (max-width: 640px) {
+            .container { padding: 1rem; }
+            .header-section { padding: 1.5rem 1rem; }
+            .header-section h1 { font-size: 2rem; }
+            .info-section { padding: 1.5rem 1rem; }
+            .info-section h2 { font-size: 1.5rem; }
+            .info-section p, .info-section li { 
+                font-size: 0.875rem; 
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+            .info-section p i, .info-section li i { 
+                margin-right: 0.25rem; 
+                margin-bottom: 0.25rem;
+            }
+            .back-btn { 
+                padding: 0.625rem 1.25rem; 
+                font-size: 0.875rem; 
+                width: 100%;
+                text-align: center;
+                margin: 1rem auto 0;
+                display: block;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-section h1 { font-size: 1.75rem; }
+            .info-section h2 { font-size: 1.25rem; }
+            .info-section p, .info-section li { font-size: 0.8125rem; }
+        }
     </style>
 </head>
 <body class="font-sans min-h-screen flex flex-col">

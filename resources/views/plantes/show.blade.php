@@ -178,6 +178,63 @@
             .info-section p, .info-section li { font-size: 0.875rem; }
             .back-btn { padding: 0.5rem 1rem; font-size: 0.875rem; }
         }
+        /* Améliorations responsives */
+@media (max-width: 640px) {
+    .container { padding: 1rem; }
+    .header-section { 
+        padding: 1.5rem 1rem; 
+        margin-bottom: 1rem;
+    }
+    .header-section h1 { 
+        font-size: 2rem; 
+        line-height: 1.2;
+    }
+    .info-section { 
+        padding: 1.5rem 1rem; 
+        margin-top: 1rem;
+    }
+    .info-section h2 { 
+        font-size: 1.5rem; 
+        margin-bottom: 0.75rem;
+    }
+    .info-section p, .info-section li { 
+        font-size: 0.875rem; 
+        margin-bottom: 0.75rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .info-section p i, .info-section li i { 
+        margin-right: 0; 
+        margin-bottom: 0.25rem;
+    }
+    .partie-utilisee {
+        flex-direction: row;
+        align-items: center;
+    }
+    .partie-icon { 
+        width: 1.25rem; 
+        height: 1.25rem; 
+        font-size: 0.6875rem; 
+    }
+    .back-btn { 
+        padding: 0.625rem 1.25rem; 
+        font-size: 0.875rem; 
+        display: block;
+        width: fit-content;
+        margin: 1.5rem auto 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-section h1 { font-size: 1.875rem; }
+    .info-section h2 { font-size: 1.375rem; }
+    .info-section p, .info-section li { font-size: 0.8125rem; }
+    .partie-icon { 
+        width: 1.125rem; 
+        height: 1.125rem; 
+        font-size: 0.625rem; 
+    }
+}
     </style>
 </head>
 <body class="font-sans min-h-screen flex flex-col">

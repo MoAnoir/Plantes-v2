@@ -56,9 +56,9 @@ Route::middleware(['auth', 'subscriptionCheck',])->group(function () {
     Route::get('/syndromes/create', [SyndromeController::class, 'create'])->name('syndromes.create');
     Route::get('/syndromes/{id}', [SyndromeController::class, 'show'])->name('syndromes.show');
     Route::get('/langues', [LangueController::class, 'index'])->name('langues.index');
-    Route::get('/langues/manage', [LangueController::class, 'manage'])->name('langues.manage');
+    
     Route::patch('/langues/{id}/image', [LangueController::class, 'updateImage'])->name('langues.updateImage');
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    
     
 });
 // Routes pour les administrateurs
@@ -72,6 +72,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/edit-user/{userId}', [AdminController::class, 'showEditUserForm'])->name('admin.showEditUser');
     Route::patch('/admin/update-user/{userId}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
     Route::delete('/admin/destroy-user/{userId}', [AdminController::class, 'destroyUser'])->name('admin.destroyUser');
+    Route::get('/langues/manage', [LangueController::class, 'manage'])->name('langues.manage');
 });
 
 // Fallback route

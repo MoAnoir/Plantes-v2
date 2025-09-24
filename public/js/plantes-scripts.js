@@ -153,6 +153,25 @@ function updatePaginationPlantes() {
         else btn.className = (parseInt(btn.textContent) === currentPagePlantes) ? 'active' : '';
     });
 }
+// Fonction pour animer l'apparition des éléments de détail
+function animateDetailElements() {
+    setTimeout(() => {
+        // Animation pour les cartes de formules
+        const formuleCards = document.querySelectorAll('.formule-card');
+        formuleCards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('animate-slide-in-up');
+            }, index * 100);
+        });
+        
+        // Animation pour la section des formules
+        const formulesSection = document.querySelector('.formules-section');
+        if (formulesSection) {
+            formulesSection.classList.add('animate-bounce-in');
+        }
+    }, 300);
+}
 
 // Mettre à jour les liens de détails avec liens cliquables
 function updateDetailLinks() {
@@ -198,11 +217,56 @@ function updateDetailLinks() {
                 detailsHtml += `<p><i class="fas fa-vial"></i> <strong>Formules Associées :</strong> ${formulesLinks}</p>`;
             }
 
-            plantDetails.innerHTML = detailsHtml;
+            // Dans la fonction updateDetailLinks(), remplacer la partie qui génère plantDetails.innerHTML
+            plantDetails.innerHTML = `
+                ${nomLatin && nomLatin !== plante.nom_chinois ? `<p><i class="fas fa-book"></i> <strong>Nom Latin :</strong> ${nomLatin}</p>` : ''}
+                ${partieUtilisee ? `
+                    <p class="partie-utilisee">
+                        <span class="partie-icon"><i class="${partieIcon}"></i></span>
+                        <span class="partie-label">Partie Utilisée : </span>${partieUtilisee}
+                    </p>` : ''}
+                ${plante.description ? `<p><i class="fas fa-file-alt"></i> <strong>Description :</strong> ${plante.description}</p>` : ''}
+                
+                ${plante.formules && plante.formules.length > 0 ? `
+                    <div class="formules-section">
+                        <h3 class="formules-title"><i class="fas fa-vial"></i> <strong>Formules Associées</strong></h3>
+                        <div class="formules-grid">
+                            ${plante.formules.map(formule => `
+                                <div class="formule-card">
+                                    <div class="formule-header">
+                                        <i class="fas fa-flask formule-icon"></i>
+                                        <a href="/formules/${encodeURIComponent(formule.nom)}" class="formule-name">${formule.nom}</a>
+                                    </div>
+                                    ${formule.pivot && (formule.pivot.role_formule || formule.pivot.pourcentage_formule) ? `
+                                        <div class="formule-details">
+                                            ${formule.pivot.role_formule ? `<span class="formule-role"><i class="fas fa-tag"></i> ${formule.pivot.role_formule}</span>` : ''}
+                                            ${formule.pivot.pourcentage_formule ? `<span class="formule-percentage"><i class="fas fa-percentage"></i> ${formule.pivot.pourcentage_formule}%</span>` : ''}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : formulesListRaw ? `
+                    <div class="formules-section">
+                        <h3 class="formules-title"><i class="fas fa-vial"></i> <strong>Formules Associées</strong></h3>
+                        <div class="formules-grid">
+                            ${formulesListRaw.split(', ').map(formule => `
+                                <div class="formule-card">
+                                    <div class="formule-header">
+                                        <i class="fas fa-flask formule-icon"></i>
+                                        <a href="/formules/${encodeURIComponent(formule.trim())}" class="formule-name">${formule.trim()}</a>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+            `;
 
             planteOverlay.style.display = 'flex';
             planteOverlayContent.classList.remove('animate-bloom');
-            void planteOverlayContent.offsetWidth; // Réinitialiser l'animation
+            void planteOverlayContent.offsetWidth;
             planteOverlayContent.classList.add('animate-bloom');
             setTimeout(() => {
                 if (plantImage.querySelector('img')) plantImage.querySelector('img').classList.add('animate-spin-fade');
@@ -212,6 +276,9 @@ function updateDetailLinks() {
                     p.style.animationDelay = `${i * 0.2}s`;
                 });
                 closeBtn.classList.add('animate-rotate-in');
+                
+                // Ajouter l'animation pour les formules
+                animateDetailElements();
             }, 100);
         });
     });
