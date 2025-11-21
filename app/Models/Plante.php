@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Plante extends Model
 {
+    use HasFactory;
     protected $table = 'plantes';
     protected $fillable = ['nom_chinois', 'nom_latin', 'partie_utilisee', 'description', 'image'];
 

@@ -48,6 +48,7 @@ Route::middleware(['auth', 'subscriptionCheck',])->group(function () {
     Route::get('/plante/{id}/edit', [PlanteController::class, 'edit'])->name('plantes.edit');
     Route::put('/plante/{id}', [PlanteController::class, 'update'])->name('plantes.update');
     Route::get('/plante/{nom_latin}', [PlanteController::class, 'show'])->name('plantes.show');
+    Route::resource('formules', App\Http\Controllers\FormuleController::class);
     Route::get('/formules', [FormuleController::class, 'index'])->name('formules.index');
     Route::get('/formules/create', [FormuleController::class, 'create'])->name('formules.create');
     Route::get('/formules/{nom}', [FormuleController::class, 'show'])->name('formules.show');

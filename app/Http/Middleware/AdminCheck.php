@@ -19,6 +19,7 @@ class AdminCheck
         if (auth()->check() && auth()->user()->is_admin) {
             return $next($request);
         }
-        return redirect('/')->with('error', 'Accès refusé. Vous n\'êtes pas administrateur.');
+        abort(403, 'Accès non autorisé.');
+        // return redirect('/')->with('error', 'Accès refusé. Vous n\'êtes pas administrateur.');
     }
 }

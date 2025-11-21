@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Formule extends Model
 {
+    use HasFactory;
     protected $table = 'formules';
     protected $fillable = [
         'nom', 'nom_alternatif', 'description', 'indications', 'posologie',
